@@ -118,7 +118,12 @@ let controllersAutos = {
                 lista.push(element)
             }
         })
-        res.send(lista)
+        res.send(" Estos son los elemntos que coinciden con su busqueda, son " + lista.length + " vehiculos.\nLos modelos son:\n" +
+        lista.map(producto =>
+            `\n*Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}, Sucursal:${producto.sucursal}\n
+            `   
+          ).join('')
+        )
     }        
 }
 
