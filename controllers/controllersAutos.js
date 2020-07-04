@@ -45,10 +45,36 @@ let controllersAutos = {
         })
         return lista
     },
+
+    cantidadAutos: function(){
+        return controllersAutos.listarAutos().length
+    },
     
 
     enviarAutos: function(req,res){
-        res.send(controllersAutos.listarAutos())
+        res.send("Bienvenido, aqui podra encontrar las lista de nuestro vehiculos\n\n" + 
+            controllersAutos.listarAutos().map(producto =>
+            `\n*${producto.marca}, Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}\n
+            `   
+          ).join(''))
+    },
+
+    filtrarPorMarca: function(marca){
+        let lista=[]
+        consecionarias.forEach(element => {
+            element.autos.forEach(producto => {
+                    if(producto.marca==marca){
+                        vehiculo = {
+                            modelo: producto.modelo,
+                            color: producto.color,
+                            anio: producto.anio,
+                            sucursal: element.sucursal
+                        }
+                    lista.push(vehiculo)
+                    }
+                })        
+        })
+        return lista
     },
 
 
@@ -67,14 +93,24 @@ let controllersAutos = {
         
         if(dato != undefined){
             if(!colores.includes(dato) && !anios.includes(dato) ){
-                res.send("Por favor verifique el dato ingresado, el mismo no se encuentra en nuestros filtros")
+                if( typeof dato == Number){
+                res.send("No tenemos modelos de ese año")
+                }
+                else{
+                    res.send("En color ingresado no se encuentra disponible " + typeof dato + " " + (typeof dato == Number))
+                }
             }
          }
 
-        let listaFiltradaPorMarca = autos.filter( element => element.marca.toUpperCase() == marca.toUpperCase())
+        let listaFiltradaPorMarca = controllersAutos.filtrarPorMarca(marca)
 
         if(dato == undefined){
-            res.send(listaFiltradaPorMarca)
+            res.send(" Contamos con " + listaFiltradaPorMarca.length + " vehiculos de la marca selecionada.\nLos modelos son:\n" +
+            listaFiltradaPorMarca.map(producto =>
+                `\n*Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}, Sucursal:${producto.sucursal}\n
+                `   
+              ).join('')
+            )
         }
         else{
             listaFiltradaPorMarca.forEach(element => {

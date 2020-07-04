@@ -11,9 +11,19 @@ let controllersMain = {
         return lista
     },
 
+    cantidadAutos: function(){
+        let cantidad = 0;
+        consecionarias.forEach(element => {
+            cantidad += element.autos.length
+        })
+        return cantidad;
+    },
+
     saludo: function(req,res){
-        res.send("Bienvenido a Automotores DH, donde encontraba su vehiculo ideal. Visitenos en nuestras sucrusales de: \n" + controllersMain.listarSucursales())        
+        res.send("Bienvenido a Automotores DH, donde encontrara su vehiculo ideal. Visitenos en nuestras sucrusales de: \n" + controllersMain.listarSucursales() + "\n\n Contamos con un total de " + controllersMain.cantidadAutos() + " vehiculos en lista, no dude en realizar su consulta")
+           
     },
     
 }
+
 module.exports = controllersMain
