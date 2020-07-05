@@ -20,7 +20,7 @@ let controllersMain = {
     },
 
     saludo: function(req,res){
-        res.send("Bienvenido a Automotores DH, donde encontrara su vehiculo ideal. Visitenos en nuestras sucrusales de: \n" + controllersMain.listarSucursales() + "\n\n Contamos con un total de " + controllersMain.cantidadAutos() + " vehiculos en lista, no dude en realizar su consulta")
+        res.send("Bienvenido a Automotores DH, donde encontrara su vehiculo ideal. Visitenos en nuestras sucrusales de: \n" + controllersMain.listarSucursales() + "\n\nContamos con un total de " + controllersMain.cantidadAutos() + " vehiculos en lista, no dude en realizar su consulta")
            
     },
     

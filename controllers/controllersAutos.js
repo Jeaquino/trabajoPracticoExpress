@@ -6,8 +6,15 @@ let controllersAutos = {
     listarAutos: function(){
         let lista=[]
         consecionarias.forEach(element => {
-            element.autos.forEach(element => {
-                    lista.push(element)
+            element.autos.forEach(producto => {
+                auto = {
+                    marca: producto.marca,
+                    modelo: producto.modelo,
+                    color: producto.color,
+                    anio: producto.anio,
+                    sucursal: element.sucursal
+                }
+                lista.push(auto)
                 })        
         })
         return lista
@@ -40,7 +47,7 @@ let controllersAutos = {
         consecionarias.forEach(element => {
             element.autos.forEach(element => {
                 if(!lista.includes(element.anio))
-                    lista.push(element.anio)
+                    lista.push(parseInt(element.anio))
                 })        
         })
         return lista
@@ -52,9 +59,9 @@ let controllersAutos = {
     
 
     enviarAutos: function(req,res){
-        res.send("Bienvenido, aqui podra encontrar las lista de nuestro vehiculos\n\n" + 
+        res.send("Bienvenido, aqui podra encontrar las lista de nuestro vehiculos, tenemos en lista un total de "+ controllersAutos.cantidadAutos() + " vehiculos. \n\n" + 
             controllersAutos.listarAutos().map(producto =>
-            `\n*${producto.marca}, Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}\n
+            `\n*${producto.marca}, Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}, Sucursal:${producto.sucursal}\n
             `   
           ).join(''))
     },
@@ -77,9 +84,18 @@ let controllersAutos = {
         return lista
     },
 
+    esUnNumero: function(dato){
+        if((dato.includes("0")) || (dato.includes("1")) || (dato.includes("2")) || (dato.includes("3")) || (dato.includes("4")) || (dato.includes("5")) || (dato.includes("6")) || (dato.includes(7)) || (dato.includes("8")) || (dato.includes("9"))){          
+            return true
+            }
+        else{
+            return false
+            }
+        },
+    
+
 
     filtrarAutos:function(req,res){
-        var autos = controllersAutos.listarAutos()
         var marcas = controllersAutos.listarMarcas()
         var colores = controllersAutos.listarColores()
         var anios = controllersAutos.listarAnios()
@@ -92,15 +108,17 @@ let controllersAutos = {
         }
         
         if(dato != undefined){
-            if(!colores.includes(dato) && !anios.includes(dato) ){
-                if( typeof dato == Number){
-                res.send("No tenemos modelos de ese año")
-                }
+            let ani = parseInt(dato)
+            if((!colores.includes(dato)) && (!anios.includes(ani))){
+                if(controllersAutos.esUnNumero(dato)){          
+                    res.send("No tenemos modelos de ese año ")
+                    }
                 else{
-                    res.send("En color ingresado no se encuentra disponible " + typeof dato + " " + (typeof dato == Number))
-                }
+                    res.send("En color ingresado no se encuentra disponible")
+                    }
             }
-         }
+        }
+        
 
         let listaFiltradaPorMarca = controllersAutos.filtrarPorMarca(marca)
 
@@ -118,12 +136,22 @@ let controllersAutos = {
                 lista.push(element)
             }
         })
-        res.send(" Estos son los elemntos que coinciden con su busqueda, son " + lista.length + " vehiculos.\nLos modelos son:\n" +
+        if(lista.length==1){
+        res.send("Este es el unico modelo que coincide con su busqueda\n\n" +
         lista.map(producto =>
             `\n*Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}, Sucursal:${producto.sucursal}\n
             `   
           ).join('')
         )
+        }
+        else{
+            res.send("Estos son los elementos que coinciden con su busqueda, son " + lista.length + " vehiculos.\nLos modelos son:\n" +
+            lista.map(producto =>
+                `\n*Modelo:${producto.modelo}, Año:${producto.anio}, Color:${producto.color}, Sucursal:${producto.sucursal}\n
+                `   
+              ).join('')
+            )   
+        }
     }        
 }
 

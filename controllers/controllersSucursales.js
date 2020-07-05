@@ -27,8 +27,8 @@ let controllersSucursal = {
               `\n${producto.localidad}, 
               dirección:${producto.direccion}
               teléfono:${producto.telefono}\n
-              \nTenemos en lista un total de ${controllersSucursal.cantidadAutos()} vehiculos, distribuidos en nuestras sucursales.`   
-            ).join('')
+              \n`   
+            ).join('') + `\nTenemos en lista un total de ${controllersSucursal.cantidadAutos()} vehiculos, distribuidos en nuestras sucursales.`
             )
     },
 

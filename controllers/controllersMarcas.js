@@ -14,10 +14,10 @@ let controllerMarcas = {
     
     chequearMarcas: function(){
         let lista=[]
-        consecionarias.forEach(element => {
-            element.autos.forEach(element => {
-                if(!lista.includes(element.marca)){
-                    lista.push(element.marca)
+        consecionarias.forEach(sucursal => {
+            sucursal.autos.forEach(auto => {
+                if(!lista.includes(auto.marca)){
+                    lista.push(auto.marca)
                 }
             })        
         })
